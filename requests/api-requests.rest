@@ -1,0 +1,39 @@
+GET http://localhost:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "sample blog",
+    "author": "John Doe",
+    "url": "www.example.com/blog/1",
+    "likes": 30
+}
+
+### post with empty body
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+   
+}
+
+### post with no title
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "author": "sample blog"   
+}
+
+### put
+PUT http://localhost:3003/api/blogs/66980f17fa24a64799ff98d8
+Content-Type: application/json
+
+{
+    "title": "HTML",
+    "author" : "Ada Lovelcae",
+    "url" : "example.com",
+    "likes" : 5000
+}
