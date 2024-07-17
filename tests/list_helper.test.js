@@ -2,6 +2,7 @@ const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 const { testBlogs } = require('./blogs_for_test')
+const exp = require('node:constants')
 
 test('dummy returns one', () => {
   const blogs = []
@@ -26,8 +27,18 @@ describe('total likes', () => {
   test('of bigger list is calculated right', () => {
 
     const result = listHelper.totalLikes(testBlogs)
-    assert.strictEqual(result, 36)
+    assert.strictEqual(result, 46)
   })
 })
 
+describe('favorite blog', () => {
+  test('returns blog with most likes', () => {
+    const expectedBlog = testBlogs.find(({ _id }) => _id === '5a422b3a1b54a676234d17f9')
+
+    const result = listHelper.favoriteBlog(testBlogs)
+
+    assert.deepStrictEqual(result, expectedBlog)
+
+  })
+})
 
