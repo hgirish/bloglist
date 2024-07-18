@@ -59,3 +59,13 @@ describe('most likes', () => {
     assert.strictEqual(likes, 22)
   })
 })
+
+
+describe('most likes alternative', () => {
+  test('return author with most likes', () => {
+    const { author, likes } = listHelper.mostLikesAlternative(testBlogs)
+
+    assert.strictEqual(author ,  'Robert C. Martin')
+    assert.strictEqual(likes, 22)
+  })
+})

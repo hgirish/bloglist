@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const dummy = (blogs) => {
   return 1
 }
@@ -10,10 +11,6 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog  = (blogs) => {
-//   const mostLikes  = Math.max(...blogs.map(blog => blog.likes))
-
-  //   const favorite = blogs.filter(blog => blog.likes === mostLikes)[0]
-
   const blogWithMostLikes = blogs.reduce(
     (prev, current) => {
       if (prev.likes === current.likes) return prev
@@ -50,7 +47,8 @@ const mostLikes = (blogs) => {
     acc[blog.author] = (acc[blog.author] || 0 ) + blog.likes
     return acc
   }, {})
-
+  const testlikes = getMax(authorCounts)
+  console.log(testlikes)
   let authorWithMostLikes
   let maxLikes = 0
   for (const author in authorCounts) {
@@ -62,12 +60,26 @@ const mostLikes = (blogs) => {
 
   return { author: authorWithMostLikes, likes: maxLikes }
 }
+const mostLikesAlternative = (blogs) => {
+  const authorCounts = blogs.reduce((acc, blog) => {
+    acc[blog.author] = (acc[blog.author] || 0 ) + blog.likes
+    return acc
+  }, {})
+  const testlikes = getMax(authorCounts)
 
+  return({ author: testlikes[0].x, likes: testlikes[0].max })
+}
+
+const getMax = object => {
+  let max = Math.max(...Object.values(object))
+  return Object.keys(object).filter(key => object[key]===max).map((x) => ({ x, max }))
+}
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
-  mostLikes
+  mostLikes,
+  mostLikesAlternative
 }
