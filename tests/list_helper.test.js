@@ -42,3 +42,20 @@ describe('favorite blog', () => {
   })
 })
 
+describe('most blogs', () => {
+  test('returns most blogs', () => {
+    const { author, count } = listHelper.mostBlogs(testBlogs)
+
+    assert.strictEqual(author ,  'Robert C. Martin')
+    assert.strictEqual(count, 3)
+  })
+})
+
+describe('most likes', () => {
+  test('return author with most likes', () => {
+    const { author, likes } = listHelper.mostLikes(testBlogs)
+
+    assert.strictEqual(author ,  'Robert C. Martin')
+    assert.strictEqual(likes, 22)
+  })
+})
