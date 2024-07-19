@@ -16,22 +16,17 @@ const blogSchema = new mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema)
 const totalBlogs = testBlogs.length
 
-const deleteBlogs = () => {
-  Blog.deleteMany().then(() =>  true)
-}
-const insertBlogs = () => {
-  for (let blog of testBlogs) {
-    let blogObject = new Blog(blog)
-    blogObject.save()
-      .then(`blog saved: ${blog.title}`)
-  }
-}
 
-// if (deleteBlogs()) {
-//   console.log('blogs deleted')
-// }
+Blog.deleteMany()
+  .then(() => {
+    for (let blog of testBlogs) {
+      let blogObject = new Blog(blog)
+      blogObject.save()
+        .then(`blog saved: ${blog.title}`)
+    }
+  })
 
-insertBlogs()
+
 
 
 const interval = setInterval(() => {
