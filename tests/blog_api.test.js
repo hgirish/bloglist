@@ -158,6 +158,26 @@ test('if likes missing, it default to zero', async () => {
 
 })
 
+test.only('a blog can be updated', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate ={ ... blogsAtStart[0], likes: 100 }
+
+  const result = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogToUpdate)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const updatedBlog = blogsAtEnd.find(b => b.id === blogToUpdate.id)
+
+  assert.deepStrictEqual(updatedBlog, result.body)
+  assert.strictEqual(updatedBlog.likes, 100)
+
+  assert.strictEqual(blogsAtEnd.length, testBlogs.length )
+})
+
 beforeEach(async () => {
   await Blog.deleteMany()
   for (let blog of testBlogs) {
