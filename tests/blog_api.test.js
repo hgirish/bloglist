@@ -55,12 +55,33 @@ test('a valid blog can be added', async () => {
 
 
   assert(titles.includes('async/await simplifies making async calls'))
+
+  const insertedBlog =  blogsAtEnd.find((b) => b.title === 'async/await simplifies making async calls')
+  assert.strictEqual(insertedBlog.likes, 15)
+
 })
 
 test('blog without title is not added', async () => {
   const newBlog = {
     author: 'javascript',
     url: 'www.example.com/blog/without/title',
+    likes: 20
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(blogsAtEnd.length, testBlogs.length)
+})
+
+test('blog without url is not added', async () => {
+  const newBlog = {
+    title: 'blog without url',
+    author: 'javascript',
     likes: 20
   }
 
@@ -103,13 +124,38 @@ test('a blog can be deleted', async () => {
   assert.strictEqual(blogsAtEnd.length, testBlogs.length - 1)
 })
 
-test.only('unique identifier property of blog posts is id', async () => {
+test('unique identifier property of blog posts is id', async () => {
   const blogsInDb = await helper.blogsInDb()
 
   const firstBlog = blogsInDb[0]
 
   assert(!( '_id'  in firstBlog))
   assert(( 'id'  in firstBlog))
+})
+
+test('if likes missing, it default to zero', async () => {
+  const newBlog = {
+    title: 'blog without likes',
+    author: 'javascript',
+    url: 'www.example.com/blog/without/likes',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const insertedBlog =  blogsAtEnd.find((b) => b.title === 'blog without likes')
+
+
+
+  assert.strictEqual(blogsAtEnd.length, testBlogs.length + 1)
+
+  assert.strictEqual(insertedBlog.likes, 0)
+
 })
 
 beforeEach(async () => {
