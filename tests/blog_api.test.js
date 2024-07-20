@@ -103,6 +103,15 @@ test('a blog can be deleted', async () => {
   assert.strictEqual(blogsAtEnd.length, testBlogs.length - 1)
 })
 
+test.only('unique identifier property of blog posts is id', async () => {
+  const blogsInDb = await helper.blogsInDb()
+
+  const firstBlog = blogsInDb[0]
+
+  assert(!( '_id'  in firstBlog))
+  assert(( 'id'  in firstBlog))
+})
+
 beforeEach(async () => {
   await Blog.deleteMany()
   for (let blog of testBlogs) {
