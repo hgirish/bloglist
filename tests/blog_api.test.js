@@ -158,7 +158,7 @@ test('if likes missing, it default to zero', async () => {
 
 })
 
-test.only('a blog can be updated', async () => {
+test('a blog can be updated', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToUpdate ={ ... blogsAtStart[0], likes: 100 }
 
